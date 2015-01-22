@@ -3,7 +3,7 @@ set :deploy_user, 'aplusbstudio'
 
 # setup repo details
 set :scm, :git
-set :repo_url, 'git@bitbucket.org:aplusbstudio/testapp.git'
+set :repo_url, 'git@github.com:alexlampe/charels.git'
 
 # setup rbenv.
 # set :rbenv_type, :system
@@ -61,6 +61,7 @@ set(:symlinks, [
   }
 ])
 
+set :default_env, { path: "~/.rbenv/shims:~/.rbenv/bin:$PATH" }
 # this:
 # http://www.capistranorb.com/documentation/getting-started/flow/
 # is worth reading for a quick overview of what tasks are called
