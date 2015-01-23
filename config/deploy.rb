@@ -1,5 +1,6 @@
 set :application, 'testApp'
 set :deploy_user, 'aplusbstudio'
+set :pty, true
 
 # setup repo details
 set :scm, :git
@@ -13,6 +14,8 @@ set :repo_url, 'git@github.com:alexlampe/charels.git'
 
 # how many old releases do we want to keep, not much
 set :keep_releases, 5
+
+set :use_sudo, false
 
 # files we want symlinking to specific entries in shared
 set :linked_files, %w{config/database.yml}
@@ -67,29 +70,47 @@ set :default_env, { path: "~/.rbenv/shims:~/.rbenv/bin:$PATH" }
 # is worth reading for a quick overview of what tasks are called
 # and when for `cap stage deploy`
 
-namespace :deploy do
-  # make sure we're deploying what we think we're deploying
-  before :deploy, "deploy:check_revision"
-  # only allow a deploy with passing tests to deployed
-  before :deploy, "deploy:run_tests"
-  # compile assets locally then rsync
-  after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
-  after :finishing, 'deploy:cleanup'
+# namespace :deploy do
+#   # make sure we're deploying what we think we're deploying
+#   before :deploy, "deploy:check_revision"
+#   # only allow a deploy with passing tests to deployed
+#   before :deploy, "deploy:run_tests"
+#   # compile assets locally then rsync
+#   after 'deploy:symlink:shared', 'deploy:compile_assets_locally'
+#   after :finishing, 'deploy:cleanup'
+# 
+#   # remove the default nginx configuration as it will tend
+#   # to conflict with our configs.
+#   before 'deploy:setup_config', 'nginx:remove_default_vhost'
+# 
+#   # reload nginx to it will pick up any modified vhosts from
+#   # setup_config
+#   after 'deploy:setup_config', 'nginx:reload'
+# 
+#   # Restart monit so it will pick up any monit configurations
+#   # we've added
+#   after 'deploy:setup_config', 'monit:restart'
+# 
+#   # As of Capistrano 3.1, the `deploy:restart` task is not called
+#   # automatically.
+#   after 'deploy:publishing', 'deploy:restart'
+# end
 
-  # remove the default nginx configuration as it will tend
-  # to conflict with our configs.
-  before 'deploy:setup_config', 'nginx:remove_default_vhost'
-
-  # reload nginx to it will pick up any modified vhosts from
-  # setup_config
-  after 'deploy:setup_config', 'nginx:reload'
-
-  # Restart monit so it will pick up any monit configurations
-  # we've added
-  after 'deploy:setup_config', 'monit:restart'
-
-  # As of Capistrano 3.1, the `deploy:restart` task is not called
-  # automatically.
-  after 'deploy:publishing', 'deploy:restart'
-end
+# namespace :deploy do
+#   desc "compiles assets locally then rsyncs"
+#   task :compile_assets_locally do
+#     run_locally do
+#       execute "RAILS_ENV=#{fetch(:rails_env)} bundle exec rake assets:precompile"
+#     end
+#     on roles(:app) do |role|
+#       run_locally do
+#         execute"rsync -av ./public/assets/ #{role.user}@#{role.hostname}:#{release_path}/public/assets/;"
+#       end
+#       sudo "chmod -R 755 #{release_path}/public/assets/"
+#     end
+#     run_locally do
+#       execute "rm -rf ./public/assets"
+#     end
+#   end
+# end
 

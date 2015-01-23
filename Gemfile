@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.2.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -40,6 +40,8 @@ gem 'capistrano-rails', '~> 1.1.0'
 
 # integrate bundler with capistrano
 gem 'capistrano-bundler'
+
+gem 'capistrano-passenger'
 
 # group :development do
 #     gem 'capistrano', '~> 3.3.5'
