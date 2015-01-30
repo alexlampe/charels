@@ -1,6 +1,7 @@
 set :application, 'testApp'
 set :deploy_user, 'aplusbstudio'
 set :pty, true
+set :ssh_options,   :forward_agent => true 
 
 # setup repo details
 set :scm, :git
@@ -31,10 +32,8 @@ set :tests, []
 # see documentation in lib/capistrano/tasks/setup_config.cap
 # for details of operations
 set(:config_files, %w(
-  nginx.conf
   database.example.yml
   log_rotation
-  monit
 ))
 
 # which config files should be made executable after copying
