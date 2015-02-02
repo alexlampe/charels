@@ -32,16 +32,18 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+
+gem 'rake'
+ 
 # Use Capistrano for deployment
-gem 'capistrano', '~> 3.3.5'
+gem 'capistrano', '~> 3.3.5', require: false, group: :development
+gem 'capistrano-rvm'
+ 
+group :development do
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+end
 
-# rails specific capistrano funcitons
-gem 'capistrano-rails', '~> 1.1.0'
-
-# integrate bundler with capistrano
-gem 'capistrano-bundler'
-
-gem 'capistrano-passenger'
 
 # group :development do
 #     gem 'capistrano', '~> 3.3.5'
