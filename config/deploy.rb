@@ -2,7 +2,7 @@
 SSHKit.config.command_map[:rake] = "bundle exec rake"
  
 # config valid only for Capistrano 3.1
-lock '3.1.0'
+lock '3.3.5'
  
 set :repo_url, 'git@github.com:alexlampe/charels.git'
 set :branch, "master"
